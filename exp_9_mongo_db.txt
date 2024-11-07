@@ -1,0 +1,42 @@
+C:\Users\SERVERROOM>cd..
+C:\Users>cd..
+C:\>cd C:\Program Files\MongoDB\Server\5.0\bin C:\Program Files\MongoDB\Server\5.0\bin>mongo 
+
+
+> use Employee 
+
+> db.createCollection("emp1")
+
+>db.emp1.insertMany([{eno:101, ename:"Chetan", address:"Vadgaon", sal:150000}, {eno:102, ename:"Aradhya", address:"Talegaon", sal:140000}, {eno:103, ename:"Prathamesh", address:"Akurdi", sal:110000}, {eno:104, ename:"Adarsh", address:"Chinchwad", sal:100000}, {eno:105, ename:"Jatin", address:"Pimpri", sal:115000}])
+
+> db.emp1.find().pretty()
+
+> db.emp1.insertOne({_id:2423, eno:106, ename:"Nishant", address:"Jalgaon", sal:520000})
+
+> db.emp1.find({ sal: { $gt: 5000 } }).pretty();
+
+> db.emp1.find({ sal: { $lt: 15000 } }).pretty();
+
+> db.emp1.find({ sal: { $gt: 10000, $lt: 20000 } }).pretty();
+
+> db.emp1.updateMany({}, { $mul: { sal: 1.10 } });
+
+> db.emp1.deleteMany({ sal: { $lt: 5000 } });
+
+> db.emp1.renameCollection("employee1");
+
+> db.employee1.find({ ename: { $regex: "^N" } }).pretty();
+
+> db.employee1.find().sort({ ename: 1 }).pretty();
+
+> use Employee1;
+
+> db.dropDatabase();
+
+> db.emp1.insertMany([
+  { eno: 107, ename: "Raj", address: "Chennai", sal: 12000 },
+  { eno: 108, ename: "Priya", address: "Bangalore", sal: 15000 }
+]);
+
+>db.emp1.drop();
+

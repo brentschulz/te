@@ -1,0 +1,55 @@
+use SportsClub;
+
+db.createCollection("users");
+
+db.users.insertMany([
+  { name: "Alice", join_date: new Date("2022-01-15"), preferences: ["Basketball", "Tennis"] },
+  { name: "Bob", join_date: new Date("2022-02-20"), preferences: ["Swimming", "Tennis"] },
+  { name: "Carol", join_date: new Date("2023-03-25"), preferences: ["Soccer"] },
+  { name: "David", join_date: new Date("2023-01-10"), preferences: ["Basketball", "Soccer"] },
+  { name: "Eve", join_date: new Date("2022-12-05"), preferences: ["Yoga", "Swimming"] }
+]);
+
+db.users.createIndex({ preferences: 1 });
+
+
+db.users.createIndex({ join_date: 1, preferences: 1 });
+
+
+db.users.aggregate([
+  {
+    $project: {
+      name_upper: { $toUpper: "$name" }
+    }
+  },
+  {
+    $sort: { name_upper: 1 }
+  }
+]);
+
+
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      join_month: { $month: "$join_date" }
+    }
+  },
+  {
+    $sort: { join_month: 1 }
+  }
+]);
+
+
+db.users.aggregate([
+  {
+    $group: {
+      _id: { month: { $month: "$join_date" } },
+      count: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { "_id.month": 1 }
+  }
+]);
+

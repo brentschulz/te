@@ -1,0 +1,32 @@
+
+use Employee;
+
+db.createCollection("Computer");
+
+db.Computer.insertMany([
+  { _id: 1, name: "Alice", Salary: 5000 },
+  { _id: 2, name: "Bob", Salary: 7000 },
+  { _id: 3, name: "Carol", Salary: 6000 },
+  { _id: 4, name: "David", Salary: 8000 }
+]);
+
+
+var mapFunction = function() {
+    emit("total", this.Salary);
+};
+
+var reduceFunction = function(key, values) {
+    return Array.sum(values);
+};
+
+
+db.Computer.mapReduce(
+    mapFunction,
+    reduceFunction,
+    {
+        out: "TotalSalary"  
+    }
+);
+
+
+db.TotalSalary.find();
