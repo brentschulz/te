@@ -1,0 +1,53 @@
+SQL> Create table Borrower(Roll number, SName Varchar2(10), DateofIssue date, BookName Varchar2(15), Status varchar2(1));
+
+SQL> Create table Fine(Roll number, CurrentDate date, Amt number); 
+
+SQL> Insert into borrower values(1,'ajay','9-jun-17','book1','I');
+
+SQL> edit cur.sql 
+DECLARE
+    e1 EXCEPTION;
+    rollno Borrower.RollNumber%TYPE;
+    bname Borrower.BookName%TYPE;
+
+    B_Issuse_Date DATE;
+    Days NUMBER(4);
+    fine_amt NUMBER(10);
+BEGIN
+    rollno := &rollno;
+    bname := '&bname';
+
+    SELECT DateofIssue INTO B_Issuse_Date
+    FROM Borrower 
+    WHERE RollNumber = rollno AND BookName = bname;
+
+    Days := SYSDATE - B_Issuse_Date;
+    DBMS_OUTPUT.PUT_LINE('Total Days: ' || Days);
+
+    IF Days <= 15 THEN
+        fine_amt := 0;
+        DBMS_OUTPUT.PUT_LINE('No fine');
+    ELSIF Days BETWEEN 16 AND 30 THEN
+        fine_amt := (Days - 15) * 5;
+        INSERT INTO Fine VALUES (rollno, SYSDATE, fine_amt);
+    ELSE
+        fine_amt := (Days - 30) * 50 + (15 * 5);
+        INSERT INTO Fine VALUES (rollno, SYSDATE, fine_amt);
+    END IF;
+
+    UPDATE Borrower 
+    SET Status = 'R' 
+    WHERE RollNumber = rollno;
+
+EXCEPTION
+    WHEN e1 THEN
+        DBMS_OUTPUT.PUT_LINE('Not found');
+END;
+/
+
+OUTPUT
+SQL> @cur (command to run PL/SQL block)
+Enter value for rollno: 1 old 10: rollno:=&rollno;
+new 10: rollno:=1;
+Enter value for bname: book1 old 11: bname:='&bname';
+
