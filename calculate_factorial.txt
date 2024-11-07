@@ -1,0 +1,22 @@
+DECLARE
+   num NUMBER;
+   fact NUMBER := 1;
+   e_negative EXCEPTION;
+
+BEGIN
+   num := &num;
+   IF num < 0 THEN
+      RAISE e_negative;
+   END IF;
+
+   FOR i IN 1..num LOOP
+      fact := fact * i;
+   END LOOP;
+
+   DBMS_OUTPUT.PUT_LINE('Factorial of ' || num || ' is: ' || fact);
+
+EXCEPTION
+   WHEN e_negative THEN
+      DBMS_OUTPUT.PUT_LINE('Error: Factorial is not defined for negative numbers.');
+END;
+/
