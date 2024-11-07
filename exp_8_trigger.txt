@@ -1,0 +1,57 @@
+
+create table Library(book_id int, book_name varchar(20), book_price int); 
+
+create table Library_Audit(book_id int, book_name varchar(20), book_price int, audit_change varchar(10), update_time date);
+
+insert into Library values(1, 'Book1', 225);
+insert into Library values(2, 'Book2', 345);
+insert into Library values(3, 'Book3', 1015);
+insert into Library values(4, 'Book4', 553);
+COMMIT;
+
+SQL> edit trig1.sql;
+
+create or replace trigger trig1 after delete or update on Library for each row 
+declare
+auch varchar(15); 
+begin
+if deleting then auch := 'delete'; 
+end if;
+if updating then auch := 'update'; 
+end if;
+insert into Library_Audit values(:old.book_id, :old.book_name, :old.book_price, auch, current_timestamp);
+end;
+/
+SQL> @trig1.sql 
+Trigger created. 
+
+SQL> update Library set book_name = 'Python Programming' where book_id = 4;
+
+SQL> select * from Library_Audit;
+
+SQL> delete from Library where book_id = 1;
+
+SQL> select * from Library_Audit;
+
+SQL> create table Audit_Change1 (book_id int, aud_change varchar(10), update_time timestamp);
+
+SQL> edit trig2.sql
+
+create or replace trigger trig2 before delete or update on Library 
+declare
+auch varchar(15); 
+begin
+if deleting then auch := 'delete'; 
+end if;
+if updating then auch := 'update'; 
+end if;
+insert into Audit_Change1 values(s1.nextval, auch, current_timestamp); 
+end;
+/
+
+SQL> @trig2.sql
+ Trigger created.
+ 
+SQL> update Library set book_name = 'KORTH' where book_id = 2;
+
+SQL> select * from Audit_Change1;
