@@ -1,0 +1,72 @@
+SQL> create table person(driver_id int primary key, name varchar(20), address varchar(10));
+
+SQL> insert into person values('102','ramesh',mumbai);
+
+SQL> create table car(license varchar(20) primary key, model varchar(20), year int); 
+
+SQL> insert into car values('abc123','breeza',2018);
+
+SQL> create table accident(report_no	int primary key, date_acc date, location varchar(20)); 
+
+SQL> insert into accident values(11,'12/jan/2012','pune');
+
+SQL> create table owns(driver_id int references person(driver_id), license varchar(20) references car(license));
+
+SQL> insert into owns values(101,'abc123');
+
+SQL> create table participated(driver_id int references person(driver_id), model varchar(20),report_no int references accident(report_no),damage_amount int);
+
+SQL> insert into participated values(101,'breeza',23,10000);
+
+SQL> create table employee(employee_name varchar(10) primary key,street varchar(15),city varchar(15));
+
+SQL> insert into employee values('nandini','JM road','pune');
+
+SQL> create table company(company_name varchar(20) primary key,city varchar(10));
+
+SQL> insert into company values('cognizant','pune');
+
+SQL> create table works(employee_name varchar(20) references employee(employee_name), company_name varchar(20) references company(company_name), salary int);	
+
+SQL> insert into works values('aayushi','cognizant',45000);
+
+SQL> create table manages(employee_name varchar(20) references employee(employee_name),manager_name varchar(20));
+
+SQL> insert into manages values('aayushi','xyz');
+
+1)	Create view with the employee_name, company_name  by using above tables.
+
+SQL> create view view1 as select employee_name, company_name from works;
+
+SQL> select * from view1;
+
+2)	 Create index for employee & participated table.
+
+SQL> create index emp_city_idx on employee(city);
+
+SQL> create index part_driver_id on participated(driver_id);
+
+3)	Create sequence for person & insert 4 records using sequence.
+
+SQL> CREATE SEQUENCE person_seq
+    START WITH 1
+    INCREMENT BY 1;
+
+SQL> INSERT INTO person (driver_id, name, address) VALUES (person_seq.NEXTVAL, 'Alice', '123 Elm St');
+
+4)	Create the synonym for table participated & company. Display the record using this table. Update the record using the synonym tables.
+
+SQL> create synonym s1_part for participated;
+
+SQL> update s1_part set damage_amount=25000 where report_no=11;
+
+SQL> create synonym s1_comp for company;
+
+SQL> update s1_comp set city='nashik' where company_name='accenture';
+
+5)	Drop index from employee table.
+
+SQL> DROP INDEX emp_city_idx;
+
+
+
