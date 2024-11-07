@@ -1,0 +1,451 @@
+SQL*Plus: Release 18.0.0.0.0 - Production on Mon Oct 14 09:37:40 2024
+Version 18.4.0.0.0
+Copyright (c) 1982, 2018, Oracle. All rights reserved.
+Enter user-name: system
+Enter password:
+Last Successful login time: Mon Oct 14 2024 09:13:40 +05:30
+Connected to:
+Oracle Database 18c Express Edition Release 18.0.0.0.0 - Production
+Version 18.4.0.0.0
+SQL> create table Department(dept_no int primary key, dept_name varchar(15),
+location varchar(10));
+create table Department(dept_no int primary key, dept_name varchar(15), location
+varchar(10))
+ *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+SQL> create table Depart(dept_no int primary key, dept_name varchar(15), location
+varchar(10));
+Table created.
+SQL> desc Depart;
+ Name Null? Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_NO NOT NULL NUMBER(38)
+ DEPT_NAME VARCHAR2(15)
+ LOCATION VARCHAR2(10)
+SQL> create table empl(emp_no int primary key, emp_name varchar(20), job
+varchar(15), mgr int, join_date date, salary int, comm int, address varchar(10),
+dept_no int references Depart(dept_no));
+Table created.
+SQL> desc empl;
+ Name Null? Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_NO NOT NULL NUMBER(38)
+ EMP_NAME VARCHAR2(20)
+ JOB VARCHAR2(15)
+ MGR NUMBER(38)
+ JOIN_DATE DATE
+ SALARY NUMBER(38)
+ COMM NUMBER(38)
+ ADDRESS VARCHAR2(10)
+ DEPT_NO NUMBER(38)
+SQL> insert into Depart values(&dept_no, '&dept_name', '&location');
+Enter value for dept_no: 10
+Enter value for dept_name: Accounting
+Enter value for location: Mumbai
+old 1: insert into Depart values(&dept_no, '&dept_name', '&location')
+new 1: insert into Depart values(10, 'Accounting', 'Mumbai')
+1 row created.
+SQL> /
+Enter value for dept_no: 20
+Enter value for dept_name: Research
+Enter value for location: Pune
+old 1: insert into Depart values(&dept_no, '&dept_name', '&location')
+new 1: insert into Depart values(20, 'Research', 'Pune')
+1 row created.
+SQL> /
+Enter value for dept_no: 30
+Enter value for dept_name: Sales
+Enter value for location: Nashik
+old 1: insert into Depart values(&dept_no, '&dept_name', '&location')
+new 1: insert into Depart values(30, 'Sales', 'Nashik')
+1 row created.
+SQL> /
+Enter value for dept_no: 40
+Enter value for dept_name: Operations
+Enter value for location: Nagpur
+old 1: insert into Depart values(&dept_no, '&dept_name', '&location')
+new 1: insert into Depart values(40, 'Operations', 'Nagpur')
+1 row created.
+SQL> COMMIT;
+Commit complete.
+SQL> select * from Depart;
+ DEPT_NO DEPT_NAME LOCATION
+---------- --------------- ----------
+ 10 Accounting Mumbai
+ 20 Research Pune
+ 30 Sales Nashik
+ 40 Operations Nagpur
+SQL> insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no);
+Enter value for emp_no: 1001
+Enter value for emp_name: Nilesh Joshi
+Enter value for job: Clerk
+Enter value for mgr: 1005
+Enter value for join_date: 17-DEC-1995
+Enter value for salary: 28000
+Enter value for comm: 600
+Enter value for address: Nashik
+Enter value for dept_no: 20
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1001, 'Nilesh Joshi', 'Clerk', 1005, '17-DEC-1995',
+28000, 600, 'Nashik', 20)
+1 row created.
+SQL> /
+Enter value for emp_no: 1002
+Enter value for emp_name: Avinash Pawar
+Enter value for job: SalesMan
+Enter value for mgr: 1003
+Enter value for join_date: 25-FEB-1996
+Enter value for salary: 5000
+Enter value for comm: 1200
+Enter value for address: Nagpur
+Enter value for dept_no: 30
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1002, 'Avinash Pawar', 'SalesMan', 1003,
+'25-FEB-1996', 5000, 1200, 'Nagpur', 30)
+1 row created.
+SQL> /
+Enter value for emp_no: 1003
+Enter value for emp_name: Amit Kumar
+Enter value for job: Manager
+Enter value for mgr: 1004
+Enter value for join_date: 02-APR-1986
+Enter value for salary: 2000
+Enter value for comm: NULL
+Enter value for address: Pune
+Enter value for dept_no: 30
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1003, 'Amit Kumar', 'Manager', 1004, '02-APR-1986',
+2000, NULL, 'Pune', 30)
+1 row created.
+SQL> /
+Enter value for emp_no: 1004
+Enter value for emp_name: Nitin Kulkarni
+Enter value for job: President
+Enter value for mgr: NULL
+Enter value for join_date: 19-APR-1986
+Enter value for salary: 50000
+Enter value for comm: NULL
+Enter value for address: Mumbai
+Enter value for dept_no: 10
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1004, 'Nitin Kulkarni', 'President', NULL,
+'19-APR-1986', 50000, NULL, 'Mumbai', 10)
+1 row created.
+SQL> /
+Enter value for emp_no: 1005
+Enter value for emp_name: Neeraj Sharma
+Enter value for job: Analyst
+Enter value for mgr: 1003
+Enter value for join_date: 03-DEC-1998
+Enter value for salary: 12000
+Enter value for comm: NULL
+Enter value for address: SATARA
+Enter value for dept_no: 20
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1005, 'Neeraj Sharma', 'Analyst', 1003,
+'03-DEC-1998', 12000, NULL, 'SATARA', 20)
+1 row created.
+SQL> /
+Enter value for emp_no: 1006
+Enter value for emp_name: Pushkar Deshpande
+Enter value for job: SalesMAn
+Enter value for mgr: 1003
+Enter value for join_date: 01-SEP-1996
+Enter value for salary: 6500
+Enter value for comm: 1500
+Enter value for address: Pune
+Enter value for dept_no: 30
+old 1: insert into empl values(&emp_no, '&emp_name', '&job', &mgr, '&join_date',
+&salary, &comm, '&address', &dept_no)
+new 1: insert into empl values(1006, 'Pushkar Deshpande', 'SalesMAn', 1003,
+'01-SEP-1996', 6500, 1500, 'Pune', 30)
+1 row created.
+SQL> COMMIT;
+Commit complete.
+SQL> set linesize 210;
+SQL> select * from empl;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1003 Amit Kumar Manager 1004 02-APR-86 2000
+ Pune 30
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+ 1006 Pushkar Deshpande SalesMAn 1003 01-SEP-96 6500
+ 1500 Pune 30
+6 rows selected.
+SQL> select emp_no, emp_name, job, mgr, join_date, salary, comm, address, dept_no
+from empl;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1003 Amit Kumar Manager 1004 02-APR-86 2000
+ Pune 30
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+ 1006 Pushkar Deshpande SalesMAn 1003 01-SEP-96 6500
+ 1500 Pune 30
+6 rows selected.
+SQL> select distinct (job) from empl;
+JOB
+---------------
+SalesMan
+President
+Clerk
+Manager
+Analyst
+SQL> update Depart set location='Banglore' where dept_no = 40;
+1 row updated.
+SQL> select * from Depart;
+ DEPT_NO DEPT_NAME LOCATION
+---------- --------------- ----------
+ 10 Accounting Mumbai
+ 20 Research Pune
+ 30 Sales Nashik
+ 40 Operations Banglore
+SQL> update empl set emp_name='Nikhil Gosavi' where emp_no = 1003;
+1 row updated.
+SQL> select * from empl;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1003 Nikhil Gosavi Manager 1004 02-APR-86 2000
+ Pune 30
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+ 1006 Pushkar Deshpande SalesMan 1003 01-SEP-96 6500
+ 1500 Pune 30
+6 rows selected.
+SQL> delete from empl where emp_name='Pushkar Deshpande';
+1 row deleted.
+SQL> select * from empl;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1003 Nikhil Gosavi Manager 1004 02-APR-86 2000
+ Pune 30
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+SQL> create table depart_temp as select * from Depart where dept_no=1;
+Table created.
+SQL> desc depart_temp
+ Name
+ Null? Type
+------------------------------------------------------------------------------------
+----------------------------------- --------
+--------------------------------------------------------------------------------
+ DEPT_NO
+ NUMBER(38)
+ DEPT_NAME
+ VARCHAR2(15)
+ LOCATION
+ VARCHAR2(10)
+SQL> select * from depart_temp;
+no rows selected
+SQL> create table temp1 as select * from Depart;
+Table created.
+SQL> select * from temp1;
+ DEPT_NO DEPT_NAME LOCATION
+---------- --------------- ----------
+ 10 Accounting Mumbai
+ 20 Research Pune
+ 30 Sales Nashik
+ 40 Operations Banglore
+SQL> select * from empl where salary between 5000 and 20000;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+SQL> select * from empl where job != 'SalesMan';
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+ 1003 Nikhil Gosavi Manager 1004 02-APR-86 2000
+ Pune 30
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+SQL> select * from empl where job in ('Manager', 'Analyst');
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1003 Nikhil Gosavi Manager 1004 02-APR-86 2000
+ Pune 30
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+SQL> select emp_name, dept_no from empl where dept_no in (10, 20, 30, 40);
+EMP_NAME DEPT_NO
+-------------------- ----------
+Nilesh Joshi 20
+Avinash Pawar 30
+Nikhil Gosavi 30
+Nitin Kulkarni 10
+Neeraj Sharma 20
+SQL> select emp_no, emp_name, job, comm from empl where comm = NULL;
+no rows selected
+SQL> select emp_no, emp_name, job, comm from empl where comm is NULL;
+ EMP_NO EMP_NAME JOB COMM
+---------- -------------------- --------------- ----------
+ 1003 Nikhil Gosavi Manager
+ 1004 Nitin Kulkarni President
+ 1005 Neeraj Sharma Analyst
+SQL> select emp_name, salary from empl where salary not in (5000, 10000);
+EMP_NAME SALARY
+-------------------- ----------
+Nilesh Joshi 28000
+Nikhil Gosavi 2000
+Nitin Kulkarni 50000
+Neeraj Sharma 12000
+SQL> select emp_name, join_date from empl where emp_name Like 'A%';
+EMP_NAME JOIN_DATE
+-------------------- ---------
+Avinash Pawar 25-FEB-96
+SQL> select emp_name from empl where emp_name Like '_i%';
+EMP_NAME
+--------------------
+Nilesh Joshi
+Nikhil Gosavi
+Nitin Kulkarni
+SQL> select emp_no, emp_name from empl where comm is not NULL;
+ EMP_NO EMP_NAME
+---------- --------------------
+ 1001 Nilesh Joshi
+ 1002 Avinash Pawar
+SQL> select * from empl order by emp_no desc;
+ EMP_NO EMP_NAME JOB MGR JOIN_DATE SALARY
+ COMM ADDRESS DEPT_NO
+---------- -------------------- --------------- ---------- --------- ----------
+---------- ---------- ----------
+ 1005 Neeraj Sharma Analyst 1003 03-DEC-98 12000
+ SATARA 20
+ 1004 Nitin Kulkarni President 19-APR-86 50000
+ Mumbai 10
+ 1003 Nikhil Gosavi Manager 1004 02-APR-86 2000
+ Pune 30
+ 1002 Avinash Pawar SalesMan 1003 25-FEB-96 5000
+ 1200 Nagpur 30
+ 1001 Nilesh Joshi Clerk 1005 17-DEC-95 28000
+ 600 Nashik 20
+SQL> select min(salary), max(salary), avg(salary), sum(salary) from empl;
+MIN(SALARY) MAX(SALARY) AVG(SALARY) SUM(SALARY)
+----------- ----------- ----------- -----------
+ 2000 50000 19400 97000
+SQL> select min(salary), max(salary), avg(salary), sum(salary) from empl group by
+job;
+MIN(SALARY) MAX(SALARY) AVG(SALARY) SUM(SALARY)
+----------- ----------- ----------- -----------
+ 5000 5000 5000 5000
+ 50000 50000 50000 50000
+ 28000 28000 28000 28000
+ 2000 2000 2000 2000
+ 12000 12000 12000 12000
+SQL> select min(salary), max(salary), avg(salary), sum(salary), job from empl group
+by job;
+MIN(SALARY) MAX(SALARY) AVG(SALARY) SUM(SALARY) JOB
+----------- ----------- ----------- ----------- ---------------
+ 5000 5000 5000 5000 SalesMan
+ 50000 50000 50000 50000 President
+ 28000 28000 28000 28000 Clerk
+ 2000 2000 2000 2000 Manager
+ 12000 12000 12000 12000 Analyst
+SQL> select count(*) from empl group by dept_no;
+ COUNT(*)
+----------
+ 2
+ 1
+ 2
+SQL> select dept_no, count(*) from empl group by dept_no;
+ DEPT_NO COUNT(*)
+---------- ----------
+ 30 2
+ 10 1
+ 20 2
+SQL> select emp_no, emp_name, salary*12 from empl order by salary*12;
+ EMP_NO EMP_NAME SALARY*12
+---------- -------------------- ----------
+ 1003 Nikhil Gosavi 24000
+ 1002 Avinash Pawar 60000
+ 1005 Neeraj Sharma 144000
+ 1001 Nilesh Joshi 336000
+ 1004 Nitin Kulkarni 600000
+SQL> select dept_no, max(salary) from empl group by dept_no having max(salary)>5000;
+ DEPT_NO MAX(SALARY)
+---------- -----------
+ 10 50000
+ 20 28000
+SQL> select dept_no from empl UNION select dept_no from Depart;
+ DEPT_NO
+----------
+ 10
+ 20
+ 30
+ 40
+SQL> select dept_no from empl UNION ALL select dept_no from Depart;
+ DEPT_NO
+----------
+ 20
+ 30
+ 30
+ 10
+ 20
+ 10
+ 20
+ 30
+ 40
+9 rows selected.
+SQL> select dept_no from empl INTERSECT select dept_no from Depart;
+ DEPT_NO
+----------
+ 10
+ 20
+ 30
+SQL> select dept_no from empl MINUS select dept_no from Depart;
+no rows selected
+SQL> select count(*) from empl where dept_no = 30 AND comm is not NULL;
+ COUNT(*)
+----------
+ 1

@@ -1,0 +1,498 @@
+SQL*Plus: Release 18.0.0.0.0 - Production on Tue Oct 15
+11:07:47 2024
+Version 18.4.0.0.0
+Copyright (c) 1982, 2018, Oracle. All rights reserved.
+Enter user-name: system
+Enter password:
+Last Successful login time: Mon Oct 14 2024 09:54:43
++05:30
+Connected to:
+Oracle Database 18c Express Edition Release 18.0.0.0.0 -
+Production
+Version 18.4.0.0.0
+SQL> create table empl_34(emp_name varchar(20) primary
+key, emp_street varchar(20), emp_city varchar(15));
+Table created.
+SQL> create table comp_34(comp_name varchar(20) primary
+key, comp_city varchar(15));
+Table created.
+SQL> create table works_34(emp_name varchar(20)
+references empl_34 (emp_name), comp_name varchar(20)
+references comp_name(comp_name), salary int);
+create table works_34(emp_name varchar(20) references
+empl_34 (emp_name), comp_name varchar(20) references
+comp_name(comp_name), salary int)
+
+ *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+SQL> create table works_34(emp_name varchar(20)
+references empl_34(emp_name), comp_name varchar(20)
+references comp_34(comp_name), salary int);
+Table created.
+SQL> create table manages_34(emp_name varchar(20)
+references empl_34(emp_name), manager_name varchar(15));
+Table created.
+SQL> desc empl_34;
+ Name Null? Type
+ ----------------------------------------- --------
+----------------------------
+ EMP_NAME NOT NULL
+VARCHAR2(20)
+ EMP_STREET
+VARCHAR2(20)
+ EMP_CITY
+VARCHAR2(15)
+SQL> desc comp_34;
+ Name Null? Type
+ ----------------------------------------- --------
+----------------------------
+ COMP_NAME NOT NULL
+VARCHAR2(20)
+ COMP_CITY
+VARCHAR2(15)
+SQL> desc works_34;
+ Name Null? Type
+ ----------------------------------------- --------
+----------------------------
+ EMP_NAME
+VARCHAR2(20)
+ COMP_NAME
+VARCHAR2(20)
+ SALARY
+NUMBER(38)
+SQL> desc manages_34;
+ Name Null? Type
+ ----------------------------------------- --------
+----------------------------
+ EMP_NAME
+VARCHAR2(20)
+ MANAGER_NAME
+VARCHAR2(15)
+SQL> insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city');
+Enter value for emp_name: Avinash Kulkarni
+Enter value for emp_street: GM Road
+Enter value for emp_city: Pune
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Avinash Kulkarni',
+'GM Road', 'Pune')
+1 row created.
+SQL> /
+Enter value for emp_name: Govind Pillai
+Enter value for emp_street: Bandra
+Enter value for emp_city: Mumbai
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Govind Pillai',
+'Bandra', 'Mumbai')
+1 row created.
+SQL> /
+Enter value for emp_name: Prathamesh Lonsane
+Enter value for emp_street: Vitthalwadi
+Enter value for emp_city: Delhi
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Prathamesh
+Lonsane', 'Vitthalwadi', 'Delhi')
+1 row created.
+SQL> /
+Enter value for emp_name: Amit Kumar
+Enter value for emp_street: Khan Market
+Enter value for emp_city: Delhi
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Amit Kumar', 'Khan
+Market', 'Delhi')
+1 row created.
+SQL> /
+Enter value for emp_name: Adarsh Singh
+Enter value for emp_street: Chelakara
+Enter value for emp_city: Kannur
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Adarsh Singh',
+'Chelakara', 'Kannur')
+1 row created.
+SQL> select * from empl_34;
+EMP_NAME EMP_STREET EMP_CITY
+-------------------- -------------------- ---------------
+Avinash Kulkarni GM Road Pune
+Govind Pillai Bandra Mumbai
+Prathamesh Lonsane Vitthalwadi Delhi
+Amit Kumar Khan Market Delhi
+Adarsh Singh Chelakara Kannur
+SQL> insert into comp_34 values ('&comp_name',
+'&comp_city');
+Enter value for comp_name: Accenture
+Enter value for comp_city: Pune
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('Accenture', 'Pune')
+1 row created.
+SQL> /
+Enter value for comp_name: TCS
+Enter value for comp_city: Mumbai
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('TCS', 'Mumbai')
+1 row created.
+SQL> /
+Enter value for comp_name: Nvidia
+Enter value for comp_city: Delhi
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('Nvidia', 'Delhi')
+1 row created.
+SQL> /
+Enter value for comp_name: Barclays
+Enter value for comp_city: Indore
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('Barclays',
+'Indore')
+1 row created.
+SQL> /
+Enter value for comp_name: Google
+Enter value for comp_city: Tokyo
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('Google', 'Tokyo')
+1 row created.
+SQL> select * from comp_34;
+COMP_NAME COMP_CITY
+-------------------- ---------------
+Accenture Pune
+TCS Mumbai
+Nvidia Delhi
+Barclays Indore
+Google Tokyo
+SQL> insert into works_34 values ('&emp_name',
+'&comp_name', &salary);
+Enter value for emp_name: Avinash Kulkarni
+Enter value for comp_name: Barclays
+Enter value for salary: 105000
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Avinash Kulkarni',
+'Barclays', 105000)
+1 row created.
+SQL> /
+Enter value for emp_name: Amit Kumar
+Enter value for comp_name: TCS
+Enter value for salary: 45000
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Amit Kumar',
+'TCS', 45000)
+1 row created.
+SQL> /
+Enter value for emp_name: Govind Pillai
+Enter value for comp_name: Accenture
+Enter value for salary: 61850
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Govind Pillai',
+'Accenture', 61850)
+1 row created.
+SQL> /
+Enter value for emp_name: Prathamesh Lonsane
+Enter value for comp_name: Google
+Enter value for salary: 178500
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Prathamesh
+Lonsane', 'Google', 178500)
+1 row created.
+SQL> /
+Enter value for emp_name: Adarsh Singh
+Enter value for comp_name: Nvidia
+Enter value for salary: 95200
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Adarsh Singh',
+'Nvidia', 95200)
+1 row created.
+SQL> select * from works_34
+ 2 ;
+EMP_NAME COMP_NAME SALARY
+-------------------- -------------------- ----------
+Avinash Kulkarni Barclays 105000
+Amit Kumar TCS 45000
+Govind Pillai Accenture 61850
+Prathamesh Lonsane Google 178500
+Adarsh Singh Nvidia 95200
+ *
+SQL> alter table manages_34 modify manager_name
+varchar(30);
+Table altered.
+SQL> insert into manages_34 values ('&emp_name',
+'&manager_name');
+Enter value for emp_name: Avinash Kulkarni
+Enter value for manager_name: Prathamesh Lonsane
+old 1: insert into manages_34 values ('&emp_name',
+'&manager_name')
+new 1: insert into manages_34 values ('Avinash
+Kulkarni', 'Prathamesh Lonsane')
+1 row created.
+SQL> /
+Enter value for emp_name: Amit Kumar
+Enter value for manager_name: Adarsh Singh
+old 1: insert into manages_34 values ('&emp_name',
+'&manager_name')
+new 1: insert into manages_34 values ('Amit Kumar',
+'Adarsh Singh')
+1 row created.
+SQL> /
+Enter value for emp_name: Govind Pillai
+Enter value for manager_name: Jatin Patil
+old 1: insert into manages_34 values ('&emp_name',
+'&manager_name')
+new 1: insert into manages_34 values ('Govind Pillai',
+'Jatin Patil')
+1 row created.
+SQL> select* from manages_34;
+EMP_NAME MANAGER_NAME
+-------------------- ------------------------------
+Avinash Kulkarni Prathamesh Lonsane
+Amit Kumar Adarsh Singh
+Govind Pillai Jatin Patil
+SQL> select emp_name from works_34 where comp_name =
+'TCS';
+EMP_NAME
+--------------------
+Amit Kumar
+SQL> select W.emp_name, E.emp_city from empl_34 E,
+works_34 W where W.emp_name = E.emp_name and W.comp_name
+= 'TCS';
+EMP_NAME EMP_CITY
+-------------------- ---------------
+Amit Kumar Delhi
+SQL> select E.emp_name, E.emp_street, E.emp_city,
+W.salary from empl_34 E, works_34 W where W.emp_name =
+E.emp_name and W.salary > 30000 and W.comp_name = 'TCS';
+EMP_NAME EMP_STREET EMP_CITY
+ SALARY
+-------------------- -------------------- ---------------
+----------
+Amit Kumar Khan Market Delhi
+ 45000
+SQL> insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city');
+Enter value for emp_name: Shardul Chavan
+Enter value for emp_street: Akola
+Enter value for emp_city: Nanded
+old 1: insert into empl_34 values ('&emp_name',
+'&emp_street', '&emp_city')
+new 1: insert into empl_34 values ('Shardul Chavan',
+'Akola', 'Nanded')
+1 row created.
+SQL> insert into works_34 values ('&emp_name',
+'&comp_name', &salary);
+Enter value for emp_name: Shardul Chavan
+Enter value for comp_name: TCS
+Enter value for salary: 87542
+old 1: insert into works_34 values ('&emp_name',
+'&comp_name', &salary)
+new 1: insert into works_34 values ('Shardul Chavan',
+'TCS', 87542)
+1 row created.
+SQL> select E.emp_name, E.emp_street, E.emp_city,
+W.salary from empl_34 E, works_34 W where W.emp_name =
+E.emp_name and W.salary > 30000 and W.comp_name = 'TCS';
+EMP_NAME EMP_STREET EMP_CITY
+ SALARY
+-------------------- -------------------- ---------------
+----------
+Amit Kumar Khan Market Delhi
+ 45000
+Shardul Chavan Akola Nanded
+ 87542
+SQL> select E.emp_name, E.emp_city, C.comp_city,
+W.comp_name from empl_34 E, works_34 W, comp_34 C where
+W.emp_name = E.emp_name and E.emp_city = C.comp_city;
+EMP_NAME EMP_CITY COMP_CITY
+COMP_NAME
+-------------------- --------------- ---------------
+--------------------
+Avinash Kulkarni Pune Pune
+Barclays
+Amit Kumar Delhi Delhi TCS
+Govind Pillai Mumbai Mumbai
+Accenture
+Prathamesh Lonsane Delhi Delhi
+Google
+SQL> select E.emp_name, E.emp_street, E.emp_city,
+M.manager_name from empl_34 E, works_34 W, manages_34 M
+where W.emp_name = E.emp_name and E.emp_name =
+M.manager_name;
+EMP_NAME EMP_STREET EMP_CITY
+-------------------- -------------------- ---------------
+MANAGER_NAME
+------------------------------
+Prathamesh Lonsane Vitthalwadi Delhi
+Prathamesh Lonsane
+Adarsh Singh Chelakara Kannur
+Adarsh Singh
+SQL> set linesize 210;
+SQL> select E.emp_name, E.emp_street, E.emp_city,
+M.manager_name from empl_34 E, works_34 W, manages_34 M
+where W.emp_name = E.emp_name and E.emp_name =
+M.manager_name;
+EMP_NAME EMP_STREET EMP_CITY
+MANAGER_NAME
+-------------------- -------------------- ---------------
+------------------------------
+Prathamesh Lonsane Vitthalwadi Delhi
+Prathamesh Lonsane
+Adarsh Singh Chelakara Kannur
+Adarsh Singh
+SQL> select emp_name from works_34 where comp_name !=
+'TCS';
+EMP_NAME
+--------------------
+Avinash Kulkarni
+Govind Pillai
+Prathamesh Lonsane
+Adarsh Singh
+SQL> select comp_name, max(salary) from works_34 group by
+comp_name;
+COMP_NAME MAX(SALARY)
+-------------------- -----------
+Barclays 105000
+Accenture 61850
+TCS 87542
+Nvidia 95200
+Google 178500
+SQL> select comp_name, max(salary) from works_34 group by
+comp_name having comp_name = 'Barclays';
+COMP_NAME MAX(SALARY)
+-------------------- -----------
+Barclays 105000
+SQL> select comp_name from works_34 where salary >
+(select max(salary) from works_34 group by comp_name
+having comp_name = 'Barclays');
+COMP_NAME
+--------------------
+Google
+SQL> select comp_name, emp_name from works_34 where
+salary > (select max(salary) from works_34 group by
+comp_name having comp_name = 'Barclays');
+COMP_NAME EMP_NAME
+-------------------- --------------------
+Google Prathamesh Lonsane
+SQL> select comp_city from comp_34 where comp_name='TCS';
+COMP_CITY
+---------------
+Mumbai
+SQL> select comp_name from comp_34 where comp_city =
+(select comp_city from comp_34 where comp_name='TCS');
+COMP_NAME
+--------------------
+TCS
+SQL> /
+Enter value for comp_name: SAP Labs
+Enter value for comp_city: Mumbai
+old 1: insert into comp_34 values ('&comp_name',
+'&comp_city')
+new 1: insert into comp_34 values ('SAP Labs',
+'Mumbai')
+1 row created.
+SQL> select comp_name from comp_34 where comp_city =
+(select comp_city from comp_34 where comp_name='TCS');
+COMP_NAME
+--------------------
+TCS
+SAP Labs
+SQL> select avg(salary) from works_34 group by comp_name;
+AVG(SALARY)
+-----------
+ 105000
+ 61850
+ 66271
+ 95200
+ 178500
+SQL> select emp_name from works_34 where salary > ALL
+(select avg(salary) from works_34 group by comp_name);
+no rows selected
+SQL> select emp_name from works_34 where salary > ALL
+(select avg(salary) from works_34 group by comp_name
+having comp_name='TCS');
+EMP_NAME
+--------------------
+Avinash Kulkarni
+Prathamesh Lonsane
+Adarsh Singh
+Shardul Chavan
+SQL> select emp_name, salary from works_34 where salary >
+ALL (select avg(salary) from works_34 group by comp_name
+having comp_name='TCS');
+EMP_NAME SALARY
+-------------------- ----------
+Avinash Kulkarni 105000
+Prathamesh Lonsane 178500
+Adarsh Singh 95200
+Shardul Chavan 87542
+SQL> select comp_name, count(*) from works_34 group by
+comp_name;
+COMP_NAME COUNT(*)
+-------------------- ----------
+Barclays 1
+Accenture 1
+TCS 2
+Nvidia 1
+Google 1
+SQL> select max(count(*)) "no of employee" from works_34
+group by comp_name;
+no of employee
+--------------
+ 1
+SQL> select min(salary) from works_34 group by comp_name;
+MIN(SALARY)
+-----------
+ 105000
+ 61850
+ 45000
+ 95200
+ 178500
+SQL> select comp_name, min(salary) from works_34 group by
+comp_name;
+COMP_NAME MIN(SALARY)
+-------------------- -----------
+Barclays 105000
+Accenture 61850
+TCS 45000
+Nvidia 95200
+Google 178500
+SQL> select comp_name,salary from works_34 where salary
+<= ALL (select min(salary) from works_34 group by
+comp_name);
+COMP_NAME SALARY
+-------------------- ----------
+TCS 45000
+SQL> select comp_name from works_34 where salary >
+(select avg(salary) from works_34 where comp_name =
+'TCS');
+COMP_NAME
+--------------------
+Barclays
+Accenture
+Google
+Nvidia
+SQL> update empl_34 set emp_city='PCMC' where emp_name =
+'Avinash Kulkarni';
+1 row updated.
+SQL> update works_34 set salary=salary+salary*0.1 where
+comp_name='TCS';
+1 row updated.
+SQL> select * from works_34;
+EMP_NAME COMP_NAME SALARY
+-------------------- -------------------- ----------
+Avinash Kulkarni Barclays 105000
+Amit Kumar TCS 49500
+Govind Pillai Accenture 61850
+Prathamesh Lonsane Google 178500
+Adarsh Singh Nvidia 95200
+SQL> delete from works_34 where comp_name = 'Google';
+1 row deleted.
