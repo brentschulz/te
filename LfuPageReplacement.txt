@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int rs[50], cntr[20], a[20];
+    int m, f, pf = 0;
+
+    cout << "Enter number of page references: ";
+    cin >> m;
+    cout << "Enter the reference string: ";
+    for (int i = 0; i < m; i++) {
+        cin >> rs[i];
+    }
+    cout << "Enter the available number of frames: ";
+    cin >> f;
+
+    for (int i = 0; i < f; i++) {
+        cntr[i] = 0;
+        a[i] = -1;
+    }
+
+    cout << "\nThe Page Replacement Process is:\n";
+    for (int i = 0; i < m; i++) {
+        bool pageFound = false;
+        for (int j = 0; j < f; j++) {
+            if (rs[i] == a[j]) {
+                cntr[j]++;
+                pageFound = true;
+                break;
+            }
+        }
+
+        if (!pageFound) {
+            int min = 0;
+            for (int k = 1; k < f; k++) {
+                if (cntr[k] < cntr[min]) {
+                    min = k;
+                }
+            }
+            a[min] = rs[i];
+            cntr[min] = 1;
+            pf++;
+        }
+
+        for (int j = 0; j < f; j++) {
+            cout << a[j] << "\t";
+        }
+
+        if (!pageFound) {
+            cout << "\tPF No. " << pf;
+        }
+        cout << endl;
+    }
+
+    cout << "\nTotal number of page faults: " << pf << endl;
+
+    return 0;
+}

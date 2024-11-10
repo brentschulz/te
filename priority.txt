@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <iomanip> 
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter the number of processes: ";
+    cin >> n;
+
+    vector<int> p(n), bt(n), pri(n), wt(n), tat(n);
+    float wtavg = 0, tatavg = 0;
+
+    cout << "\nEnter Burst Time and Priority for each process:\n";
+    for (int i = 0; i < n; i++) {
+        p[i] = i + 1;
+        cout << "Process " << p[i] << ": ";
+        cin >> bt[i] >> pri[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int k = 0; k < n - i - 1; k++) {
+            if (pri[k] > pri[k + 1]) {
+                swap(pri[k], pri[k + 1]);
+                swap(bt[k], bt[k + 1]);
+                swap(p[k], p[k + 1]);
+            }
+        }
+    }
+
+    wt[0] = 0; 
+    for (int i = 1; i < n; i++) {
+        wt[i] = 0;
+        for (int k = 0; k < i; k++) {
+            wt[i] += bt[k];
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        tat[i] = bt[i] + wt[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        wtavg += wt[i];
+        tatavg += tat[i];
+    }
+    wtavg /= n;
+    tatavg /= n;
+
+    cout << "\nPROCESS\t\tPRIORITY\tBURST TIME\tWAITING TIME\tTURNAROUND TIME\n";
+    for (int i = 0; i < n; i++) {
+        cout << "P" << p[i] << "\t\t" << pri[i] << "\t\t" << bt[i] << "\t\t" << wt[i] << "\t\t" << tat[i] << endl;
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "\nAverage Waiting Time: " << wtavg;
+    cout << "\nAverage Turnaround Time: " << tatavg << endl;
+
+    return 0;
+}

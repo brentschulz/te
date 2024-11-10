@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n, f, pf = 0, count = 0;
+
+    cout << "Enter the length of reference string: ";
+    cin >> n;
+
+    vector<int> rs(n);
+    cout << "Enter the reference string: ";
+    for (int i = 0; i < n; i++) {
+        cin >> rs[i];
+    }
+
+    cout << "Enter number of frames: ";
+    cin >> f;
+
+    vector<int> m(f, -1); // Frame array initialized to -1
+
+    cout << "\nThe Page Replacement Process is:\n";
+    for (int i = 0; i < n; i++) {
+        bool pageFound = false;
+        
+        for (int k = 0; k < f; k++) {
+            if (m[k] == rs[i]) {
+                pageFound = true;
+                break;
+            }
+        }
+
+        if (!pageFound) { // Page fault occurs
+            m[count++] = rs[i];
+            pf++;
+
+            if (count == f) { // Reset FIFO index
+                count = 0;
+            }
+        }
+
+        for (int j = 0; j < f; j++) {
+            if (m[j] == -1) {
+                cout << "\t-";
+            } else {
+                cout << "\t" << m[j];
+            }
+        }
+        
+        if (!pageFound) {
+            cout << "\tPF No. " << pf;
+        }
+        cout << endl;
+    }
+
+    cout << "\nThe number of Page Faults using FIFO are " << pf << endl;
+    return 0;
+}
